@@ -17,6 +17,7 @@ Bem-vindo ao **Gerenciador de Tarefas**! Este é um projeto simples e funcional 
 
 ### 🎥 Demonstração
 
+![image](https://github.com/user-attachments/assets/85f43e22-5875-4c2d-b6a3-4d9b3ffdabe6)
 
 
 ---
