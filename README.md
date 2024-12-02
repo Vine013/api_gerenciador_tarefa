@@ -15,6 +15,10 @@ Bem-vindo ao **Gerenciador de Tarefas**! Este é um projeto simples e funcional 
 - 🗑️ **Limpar Tarefas Concluídas**: Remova rapidamente todas as tarefas concluídas.
 - 🎨 **Design Responsivo**: Uma interface moderna e agradável para qualquer dispositivo.
 
+### 🎥 Demonstração
+
+
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
