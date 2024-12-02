@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 20px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #555;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+input, button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clearCompleted {
+    background-color: #ff5c5c;
+    color: white;
+    margin: 10px 0;
+}
+
+#tasksContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.column {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#todoColumn {
+    background-color: #ffdddd;
+}
+
+#inProgressColumn {
+    background-color: #fff5cc;
+}
+
+#doneColumn {
+    background-color: #d4fdd4;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+}

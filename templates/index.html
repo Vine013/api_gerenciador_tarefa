@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Gerenciado de Tarefas</h1>
+    <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Digite sua tarefa..." required>
+        <button type="submit">Adicionar Tarefa</button>
+    </form>
+
+    <button id="clearCompleted">Limpar Tarefas Concluídas</button>
+
+    <div id="tasksContainer">
+        <div id="todoColumn" class="column">
+            <h2>A Fazer</h2>
+            <ul id="todoList"></ul>
+        </div>
+        <div id="inProgressColumn" class="column">
+            <h2>Em Progresso</h2>
+            <ul id="inProgressList"></ul>
+        </div>
+        <div id="doneColumn" class="column">
+            <h2>Concluído</h2>
+            <ul id="doneList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const clearCompletedButton = document.getElementById('clearCompleted');
+        const todoList = document.getElementById('todoList');
+        const inProgressList = document.getElementById('inProgressList');
+        const doneList = document.getElementById('doneList');
+
+        //Função que busca e exibe as tarefas
+        async function fetchTasks() {
+            const response = await fetch('/tasks');
+            const data = await response.json();
+
+            //Limpa as listas antes de atualizar
+            todoList.innerHTML = '';
+            inProgressList.innerHTML = '';
+            doneList.innerHTML = '';
+
+            //Organiza tarefas por status
+            data.tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.textContent = task.title;
+
+                //Botões para mudar status
+                if (task.status === 'A fazer'){
+                    const moveToInProgress = document.createElement('button');
+                    moveToInProgress.textContent = 'Em Progresso';
+                    moveToInProgress.onclick = async () => {
+                        await updateTaskStatus(task.id, 'Em Progresso');
+                        fetchTasks();
+                    };
+                    li.appendChild(moveToInProgress);
+                    todoList.appendChild(li);
+                } else if (task.status === 'Em Progresso') {
+                    const moveToDone = document.createElement('button');
+                    moveToDone.textContent = 'Concluído';
+                    moveToDone.onclick = async () => {
+                        await updateTaskStatus(task.id, 'Concluído');
+                        fetchTasks();
+                    };
+                    li.appendChild(moveToDone);
+                    inProgressList.appendChild(li);
+                } else if (task.status === 'Concluído') {
+                    doneList.appendChild(li);
+                }
+            });
+        }
+
+        // Função para atualizar o status da tarefa
+        async function updateTaskStatus(taskId, newStatus) {
+            await fetch(`/tasks/${taskId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+        }
+
+        async function clearCompletedTasks() {
+            await fetch('/tasks/clear_completed', { method: 'DELETE' });
+            fetchTasks();
+        }
+
+        // Evento para adicionar uma nova tarefa
+        taskForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = taskInput.value;
+            await fetch('/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title })
+            });
+            taskInput.value = '';
+            fetchTasks();
+        });
+
+        clearCompletedButton.addEventListener('click', clearCompletedTasks);
+
+        // Carrega as tarefas ao abrir a página
+        fetchTasks();
+    </script>
+
+</body>
+</html>
